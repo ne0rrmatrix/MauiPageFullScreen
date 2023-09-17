@@ -1,15 +1,14 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
+﻿#if WINDOWS
+using MauiPageFullScreen.Interface;
 using Microsoft.UI.Windowing;
+#endif
 
-namespace MauiPageFullScreen.Services;
-internal static partial class DeviceService
+namespace MauiPageFullScreen.Devices;
+internal class DeviceServices : IDeviceServices
 {
-	public static Page CurrentPage =>
+    public static Page CurrentPage =>
         PageExtensions.GetCurrentPage(Application.Current?.MainPage ?? throw new InvalidOperationException($"{nameof(Application.Current.MainPage)} cannot be null."));
-    public static partial AppWindow FullScreen()
+    public AppWindow FullScreen()
     {
         var currentPage = CurrentPage;
         PageExtensions.SetBarStatus(true);
@@ -24,7 +23,8 @@ internal static partial class DeviceService
         }
         return currentWindow;
     }
-    public static partial AppWindow RestoreScreen()
+
+    public AppWindow RestoreScreen()
     {
         var currentPage = CurrentPage;
         PageExtensions.SetBarStatus(false);

@@ -1,9 +1,7 @@
-﻿
-
-namespace MauiPageFullScreen;
-
+﻿namespace MauiPageFullScreen;
 public static class Controls
 {
+    private static DeviceServices Control { get; set; } = new();
     private static bool FullScreen { get; set; } = false;
     /// <summary>
     /// Toggle Page Full Screen
@@ -13,12 +11,12 @@ public static class Controls
         if (FullScreen)
         {
             FullScreen = false;
-            DeviceService.RestoreScreen();
+            Control.RestoreScreen();
         }
         else
         {
             FullScreen = true;
-            DeviceService.FullScreen();
+            Control.FullScreen();
         }
     }
 }

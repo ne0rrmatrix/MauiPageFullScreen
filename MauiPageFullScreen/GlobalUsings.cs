@@ -1,3 +1,2 @@
-﻿
-global using MauiPageFullScreen.Services;
-global using MauiPageFullScreen.Extensions;
+﻿global using MauiPageFullScreen.Extensions;
+global using MauiPageFullScreen.Devices;

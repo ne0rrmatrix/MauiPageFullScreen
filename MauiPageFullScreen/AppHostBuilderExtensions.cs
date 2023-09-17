@@ -1,4 +1,7 @@
 ﻿
+using MauiPageFullScreen.Devices;
+using MauiPageFullScreen.Interface;
+
 namespace MauiPageFullScreen;
 
 /// <summary>
@@ -33,6 +36,7 @@ public static class AppHostBuilderExtensions
 			}
 		});
 #endif
+        builder.Services.AddSingleton<IDeviceServices, DeviceServices>();
         return builder;
     }
 }

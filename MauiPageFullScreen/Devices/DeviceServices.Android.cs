@@ -1,18 +1,16 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
+﻿
+using MauiPageFullScreen.Interface;
 using Platform = Microsoft.Maui.ApplicationModel.Platform;
 
 #if ANDROID
 using Views = AndroidX.Core.View;
 #endif
 
-namespace MauiPageFullScreen.Services;
-internal static partial class DeviceService
+namespace MauiPageFullScreen.Devices;
+
+internal class DeviceServices : IDeviceServices
 {
-    #region Full Screen Methods
-    public static partial void RestoreScreen()
+    public void RestoreScreen()
     {
         PageExtensions.SetBarStatus(false);
         var activity = Platform.CurrentActivity;
@@ -28,7 +26,7 @@ internal static partial class DeviceService
                     Views.WindowInsetsCompat.Type.NavigationBars();
         windowInsetsControllerCompat.Show(types);
     }
-    public static partial void FullScreen()
+    public void FullScreen()
     {
         PageExtensions.SetBarStatus(true);
         var activity = Platform.CurrentActivity;
@@ -46,5 +44,4 @@ internal static partial class DeviceService
         windowInsetsControllerCompat.SystemBarsBehavior = Views.WindowInsetsControllerCompat.BehaviorShowBarsBySwipe;
         windowInsetsControllerCompat.Hide(types);
     }
-    #endregion
 }
