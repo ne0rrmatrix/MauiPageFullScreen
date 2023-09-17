@@ -2,11 +2,9 @@
 
 Currently it works with Navigation Page, Tabbed page, and Shell page. Full screen is supported by Windows, android and IOS. It is not supported on Mac Catalyst.
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ne0rrmatrix_MauiPageFullScreen&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ne0rrmatrix_MauiPageFullScreen)
-
-|[FullScreenStatus.Maui](https://www.nuget.org/packages/FullScreenStatus.Maui/)|.NET 7|
-|:---:|:---:|
-|Stable|[![.NET 7](https://badgen.net/nuget/v/FullScreenStatus.Maui/?icon=nuget)](https://www.nuget.org/packages/FullScreenStatus.Maui/1.0.2)|
+|[FullScreenStatus.Maui](https://www.nuget.org/packages/FullScreenStatus.Maui/)|.NET 7|QualityGate|
+|:---:|:---:|:---:|
+|Stable|[![.NET 7](https://badgen.net/nuget/v/FullScreenStatus.Maui/?icon=nuget)](https://www.nuget.org/packages/FullScreenStatus.Maui/1.0.2)|[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ne0rrmatrix_MauiPageFullScreen&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ne0rrmatrix_MauiPageFullScreen)|
 
 ## API Example:
 
