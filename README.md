@@ -1,6 +1,6 @@
 # MauiPageFullScreen sets the Page to full screen or restore screen
 
-Currently it works with Navigation Page, Tabbed page, and Shell page. Windows, Android, IOS and Mac supported. Full screen is supported by Windows, android and IOS. It is not supported on Mac Catalyst.
+Currently it works with Navigation Page, Tabbed page, and Shell page. Windows, Android, and IOS. Full screen is supported by Windows, android and IOS. It is not supported on Mac Catalyst.
 
 ## API Example:
 
