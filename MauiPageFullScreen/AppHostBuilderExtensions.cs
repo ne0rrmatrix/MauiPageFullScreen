@@ -24,10 +24,6 @@ public static class AppHostBuilderExtensions
 			}
 		});
 #endif
-        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("ToggleFullScreenStatus", (handler, view) =>
-        {
-			Controls.SetFullScreenStatus();
-        });
         return builder;
     }
 }
