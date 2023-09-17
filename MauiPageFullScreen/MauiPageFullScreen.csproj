@@ -19,7 +19,7 @@
 		<Title>Toggle Maui Page Full Screen</Title>
 		<Authors>Ne0rmatrix</Authors>
 		<Description>Toggle Maui Page from normal status to full screen and back again</Description>
-		<Version>1.0.1</Version>
+		<Version>1.0.0</Version>
 		<PackageId>FullScreenStatus.Maui</PackageId>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
@@ -32,11 +32,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\..\MediaControls\LICENSE.txt">
+	  <None Include="..\LICENSE.txt">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
-	  <None Include="..\..\MediaControls\README.md">
+	  <None Include="..\README.md">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
