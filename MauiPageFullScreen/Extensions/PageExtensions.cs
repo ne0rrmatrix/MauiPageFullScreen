@@ -1,7 +1,7 @@
 ﻿
 namespace MauiPageFullScreen.Extensions;
 
-// Since MediaElement can't access .NET MAUI internals we have to copy this code here
+// Since MauiPageFullScreen can't access .NET MAUI internals we have to copy this code here
 // https://github.com/dotnet/maui/blob/main/src/Controls/src/Core/Platform/PageExtensions.cs
 static class PageExtensions
 {
