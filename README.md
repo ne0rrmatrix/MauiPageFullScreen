@@ -4,7 +4,7 @@ Currently it works with Navigation Page, Tabbed page, and Shell page. Full scree
 
 |[FullScreenStatus.Maui](https://www.nuget.org/packages/FullScreenStatus.Maui/)|.NET 7|QualityGate|
 |:---:|:---:|:---:|
-|Stable|[![.NET 7](https://badgen.net/nuget/v/FullScreenStatus.Maui/?icon=nuget)](https://www.nuget.org/packages/FullScreenStatus.Maui/1.0.2)|[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ne0rrmatrix_MauiPageFullScreen&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ne0rrmatrix_MauiPageFullScreen)|
+|Stable|[![.NET 7](https://badgen.net/nuget/v/FullScreenStatus.Maui/?icon=nuget)](https://www.nuget.org/packages/FullScreenStatus.Maui/1.0.3)|[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ne0rrmatrix_MauiPageFullScreen&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ne0rrmatrix_MauiPageFullScreen)|
 
 ## API Example:
 
