@@ -38,11 +38,20 @@ static class PageExtensions
         }
         else
         {
-            NavigationPage.SetHasNavigationBar(currentPage, navBarIsVisible);
-            NavigationPage.SetHasBackButton(currentPage, backButton);
-            NavigationPage.SetBackButtonTitle(currentPage, backButtonTitle);
-            Shell.SetNavBarIsVisible(currentPage, navBarIsVisible);
-            Shell.SetTabBarIsVisible(currentPage, tabBarIsVisible);
+            if (navBarIsVisible)
+            {
+                NavigationPage.SetHasNavigationBar(currentPage, navBarIsVisible);
+                Shell.SetNavBarIsVisible(currentPage, navBarIsVisible);
+            }
+            if (backButton)
+            {
+                NavigationPage.SetHasBackButton(currentPage, backButton);
+                NavigationPage.SetBackButtonTitle(currentPage, backButtonTitle);
+            }
+            if (tabBarIsVisible)
+            {
+                Shell.SetTabBarIsVisible(currentPage, tabBarIsVisible);
+            }
             currentPage.Title = pageTitle;
         }
     }
