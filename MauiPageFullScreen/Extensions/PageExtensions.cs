@@ -5,11 +5,11 @@ namespace MauiPageFullScreen.Extensions;
 // https://github.com/dotnet/maui/blob/main/src/Controls/src/Core/Platform/PageExtensions.cs
 static class PageExtensions
 {
-    static bool navBarIsVisible = false;
-    static bool tabBarIsVisible = false;
-    static bool backButton = false;
-    static string backButtonTitle = string.Empty;
-    static string pageTitle = string.Empty;
+    private static bool? s_navBarIsVisible = null;
+    private static bool? s_tabBarIsVisible = null;
+    private static bool? s_backButton = null;
+    private static string s_backButtonTitle = null;
+    private static string s_pageTitle = null;
     static Page CurrentPage => GetCurrentPage(Application.Current?.MainPage ?? throw new InvalidOperationException($"{nameof(Application.Current.MainPage)} cannot be null."));
     static public void SetBarStatus(bool shouldBeFullScreen)
     {
@@ -24,13 +24,13 @@ static class PageExtensions
 
         if (shouldBeFullScreen)
         {
-            navBarIsVisible = Shell.GetNavBarIsVisible(currentPage);
-            tabBarIsVisible = Shell.GetTabBarIsVisible(currentPage);
-            backButton = NavigationPage.GetHasBackButton(currentPage);
-            backButtonTitle = NavigationPage.GetBackButtonTitle(currentPage);
+            s_navBarIsVisible = Shell.GetNavBarIsVisible(currentPage);
+            s_tabBarIsVisible = Shell.GetTabBarIsVisible(currentPage);
+            s_backButton = NavigationPage.GetHasBackButton(currentPage);
+            s_backButtonTitle = NavigationPage.GetBackButtonTitle(currentPage);
             NavigationPage.SetBackButtonTitle(currentPage, string.Empty);
             NavigationPage.SetHasBackButton(currentPage, false);
-            pageTitle = currentPage.Title;
+            s_pageTitle = currentPage.Title;
             currentPage.Title = string.Empty;
             Shell.SetNavBarIsVisible(currentPage, false);
             Shell.SetTabBarIsVisible(currentPage, false);
@@ -38,21 +38,24 @@ static class PageExtensions
         }
         else
         {
-            if (navBarIsVisible)
+            if (s_navBarIsVisible.HasValue)
             {
-                NavigationPage.SetHasNavigationBar(currentPage, navBarIsVisible);
-                Shell.SetNavBarIsVisible(currentPage, navBarIsVisible);
+                NavigationPage.SetHasNavigationBar(currentPage, s_navBarIsVisible.Value);
+                Shell.SetNavBarIsVisible(currentPage, s_navBarIsVisible.Value);
             }
-            if (backButton)
+            if (s_backButton.HasValue)
             {
-                NavigationPage.SetHasBackButton(currentPage, backButton);
-                NavigationPage.SetBackButtonTitle(currentPage, backButtonTitle);
+                NavigationPage.SetHasBackButton(currentPage, s_backButton.Value);
+                NavigationPage.SetBackButtonTitle(currentPage, s_backButtonTitle);
             }
-            if (tabBarIsVisible)
+            if (s_tabBarIsVisible.HasValue)
             {
-                Shell.SetTabBarIsVisible(currentPage, tabBarIsVisible);
+                Shell.SetTabBarIsVisible(currentPage, s_tabBarIsVisible.Value);
             }
-            currentPage.Title = pageTitle;
+            if (s_pageTitle is not null)
+            {
+                currentPage.Title = s_pageTitle;
+            }
         }
     }
     internal static Page GetCurrentPage(this Page currentPage)

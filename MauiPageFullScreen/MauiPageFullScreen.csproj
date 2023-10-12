@@ -19,7 +19,7 @@
 		<Title>Toggle Maui Page Full Screen</Title>
 		<Authors>Ne0rmatrix</Authors>
 		<Description>Toggle Maui Page from normal status to full screen and back again</Description>
-		<Version>1.0.3</Version>
+		<Version>1.0.4</Version>
 		<PackageId>FullScreenStatus.Maui</PackageId>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
@@ -27,7 +27,7 @@
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<RepositoryUrl>https://github.com/ne0rrmatrix/MauiPageFullScreen</RepositoryUrl>
 		<PackageTags>Full Screen, Maui, Android, iOS, Windows</PackageTags>
-		<PackageReleaseNotes>Initial release of Full Screen support for dotnet Maui Page element</PackageReleaseNotes>
+		<PackageReleaseNotes>Full Screen support for dotnet Maui Page element</PackageReleaseNotes>
 		<PackageProjectUrl>https://github.com/ne0rrmatrix/MauiPageFullScreen</PackageProjectUrl>
 	</PropertyGroup>
 
