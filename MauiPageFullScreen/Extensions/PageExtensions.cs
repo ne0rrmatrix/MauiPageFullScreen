@@ -5,24 +5,24 @@ namespace MauiPageFullScreen.Extensions;
 // https://github.com/dotnet/maui/blob/main/src/Controls/src/Core/Platform/PageExtensions.cs
 static class PageExtensions
 {
-    private static bool? s_navBarIsVisible = null;
-    private static bool? s_tabBarIsVisible = null;
-    private static bool? s_backButton = null;
-    private static string s_backButtonTitle = null;
-    private static string s_pageTitle = null;
+    private static bool? s_navBarIsVisible;
+    private static bool? s_tabBarIsVisible;
+    private static bool? s_backButton;
+    private static string? s_backButtonTitle;
+    private static string? s_pageTitle;
     static Page CurrentPage => GetCurrentPage(Application.Current?.MainPage ?? throw new InvalidOperationException($"{nameof(Application.Current.MainPage)} cannot be null."));
-    static public void SetBarStatus(bool shouldBeFullScreen)
+    static public void SetBarStatus(bool setFullScreen)
     {
 #if IOS || MACCATALYST
 #pragma warning disable CA1422 // Validate platform compatibility
-        UIKit.UIApplication.SharedApplication.SetStatusBarHidden(shouldBeFullScreen, UIKit.UIStatusBarAnimation.Fade);
+        UIKit.UIApplication.SharedApplication.SetStatusBarHidden(setFullScreen, UIKit.UIStatusBarAnimation.Fade);
 #pragma warning restore CA1422 // Validate platform compatibility
 #endif
         // let's cache the CurrentPage here, since the user can navigate or background the app
         // while this method is running
         var currentPage = CurrentPage;
 
-        if (shouldBeFullScreen)
+        if (setFullScreen)
         {
             s_navBarIsVisible = Shell.GetNavBarIsVisible(currentPage);
             s_tabBarIsVisible = Shell.GetTabBarIsVisible(currentPage);
@@ -46,7 +46,6 @@ static class PageExtensions
             if (s_backButton.HasValue)
             {
                 NavigationPage.SetHasBackButton(currentPage, s_backButton.Value);
-                NavigationPage.SetBackButtonTitle(currentPage, s_backButtonTitle);
             }
             if (s_tabBarIsVisible.HasValue)
             {
@@ -55,6 +54,10 @@ static class PageExtensions
             if (s_pageTitle is not null)
             {
                 currentPage.Title = s_pageTitle;
+            }
+            if (s_backButtonTitle is not null)
+            {
+                NavigationPage.SetBackButtonTitle(currentPage, s_backButtonTitle);
             }
         }
     }

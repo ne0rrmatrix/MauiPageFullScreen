@@ -12,7 +12,7 @@ internal class DeviceServices : IDeviceServices
     {
         var currentPage = CurrentPage;
         PageExtensions.SetBarStatus(true);
-        var item = currentPage.GetParentWindow().Handler.PlatformView as MauiWinUIWindow;
+        var item = currentPage.GetParentWindow().Handler.PlatformView as MauiWinUIWindow ?? throw new NullReferenceException($"{nameof(MauiWinUIWindow)} cannot be null");
         var currentWindow = GetAppWindow(item);
         switch (currentWindow.Presenter)
         {
@@ -28,7 +28,7 @@ internal class DeviceServices : IDeviceServices
     {
         var currentPage = CurrentPage;
         PageExtensions.SetBarStatus(false);
-        var item = currentPage.GetParentWindow().Handler.PlatformView as MauiWinUIWindow;
+        var item = currentPage.GetParentWindow().Handler.PlatformView as MauiWinUIWindow ?? throw new NullReferenceException($"{nameof(MauiWinUIWindow)} cannot be null");
         var currentWindow = GetAppWindow(item);
         switch (currentWindow.Presenter)
         {
