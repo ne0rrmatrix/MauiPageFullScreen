@@ -9,10 +9,9 @@ Currently it works with Navigation Page, Tabbed page, and Shell page. Full scree
 ## API Example:
 
 ```
- private void FullScreen_Clicked(object sender, EventArgs e)
- {
-     Controls.SetFullScreenStatus();
- }
+      Controls.ToggleFullScreenStatus();
+      Controls.FullScreen();
+      Controls.RestoreScreen();
 ```
 
 ## Setup for usage:
