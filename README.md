@@ -4,15 +4,14 @@ Currently it works with Navigation Page, Tabbed page, and Shell page. Full scree
 
 |[FullScreenStatus.Maui](https://www.nuget.org/packages/FullScreenStatus.Maui/)|.NET 7|QualityGate|
 |:---:|:---:|:---:|
-|Stable|[![.NET 7](https://badgen.net/nuget/v/FullScreenStatus.Maui/?icon=nuget)](https://www.nuget.org/packages/FullScreenStatus.Maui/1.0.3)|[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ne0rrmatrix_MauiPageFullScreen&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ne0rrmatrix_MauiPageFullScreen)|
+|Stable|[![.NET 7](https://badgen.net/nuget/v/FullScreenStatus.Maui/?icon=nuget)](https://www.nuget.org/packages/FullScreenStatus.Maui/1.0.4)|[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ne0rrmatrix_MauiPageFullScreen&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ne0rrmatrix_MauiPageFullScreen)|
 
 ## API Example:
 
 ```
- private void FullScreen_Clicked(object sender, EventArgs e)
- {
-     Controls.SetFullScreenStatus();
- }
+      Controls.ToggleFullScreenStatus();
+      Controls.FullScreen();
+      Controls.RestoreScreen();
 ```
 
 ## Setup for usage:
@@ -62,7 +61,7 @@ Example MainPage.xaml
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <ScrollView>
+     <ScrollView>
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25"
@@ -80,24 +79,19 @@ Example MainPage.xaml
                 SemanticProperties.HeadingLevel="Level1"
                 Text="Hello, World!" />
 
-            <Label
-                FontSize="18"
-                HorizontalOptions="Center"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                SemanticProperties.HeadingLevel="Level2"
-                Text="Welcome to .NET Multi-platform App UI" />
-
             <Button
-                x:Name="CounterBtn"
-                Clicked="OnCounterClicked"
+                x:Name="FullScreenToggle"
+                Clicked="FullScreen_Toggled"
                 HorizontalOptions="Center"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Text="Click me" />
+                Text="Toggle Full Screen" />
             <Button
                 x:Name="FullScreen"
                 Clicked="FullScreen_Clicked"
-                HorizontalOptions="Center"
-                Text="Full Screen Test" />
+                Text="Full Screen" />
+            <Button
+                x:Name="RestoreScreen"
+                Clicked="RestoreScreen_Clicked"
+                Text="Restore Screen" />
         </VerticalStackLayout>
     </ScrollView>
 
@@ -112,28 +106,24 @@ namespace MauiFullScreenSample
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+       private void FullScreen_Toggled(object sender, EventArgs e)
         {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            Controls.ToggleFullScreenStatus();
         }
 
         private void FullScreen_Clicked(object sender, EventArgs e)
         {
-            Controls.SetFullScreen();
+            Controls.FullScreen();
+        }
+
+        private void RestoreScreen_Clicked(object sender, EventArgs e)
+        {
+            Controls.RestoreScreen();
         }
     }
 }

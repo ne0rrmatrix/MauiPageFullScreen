@@ -2,7 +2,8 @@
 <ContentPage
     x:Class="MauiFullScreenSample.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Home">
 
     <ScrollView>
         <VerticalStackLayout
@@ -22,24 +23,19 @@
                 SemanticProperties.HeadingLevel="Level1"
                 Text="Hello, World!" />
 
-            <Label
-                FontSize="18"
-                HorizontalOptions="Center"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                SemanticProperties.HeadingLevel="Level2"
-                Text="Welcome to .NET Multi-platform App UI" />
-
             <Button
-                x:Name="CounterBtn"
-                Clicked="OnCounterClicked"
+                x:Name="FullScreenToggle"
+                Clicked="FullScreen_Toggled"
                 HorizontalOptions="Center"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Text="Click me" />
+                Text="Toggle Full Screen" />
             <Button
                 x:Name="FullScreen"
                 Clicked="FullScreen_Clicked"
-                HorizontalOptions="Center"
-                Text="Full Screen Test" />
+                Text="Full Screen" />
+            <Button
+                x:Name="RestoreScreen"
+                Clicked="RestoreScreen_Clicked"
+                Text="Restore Screen" />
         </VerticalStackLayout>
     </ScrollView>
 
