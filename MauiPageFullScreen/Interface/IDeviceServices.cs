@@ -4,6 +4,8 @@ using MauiPageFullScreen.Interface;
 using Microsoft.UI.Windowing;
 #endif
 
+using Microsoft.Maui.Controls;
+
 namespace MauiPageFullScreen.Interface;
 interface IDeviceServices
 {
