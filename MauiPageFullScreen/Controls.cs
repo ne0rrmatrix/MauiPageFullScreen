@@ -1,8 +1,8 @@
 ﻿namespace MauiPageFullScreen;
 public static class Controls
 {
-    private static DeviceServices Control { get; set; } = new();
-    private static bool IsFullScreen { get; set; } = false;
+    static DeviceServices Control { get; set; } = new();
+    static bool IsFullScreen { get; set; } = false;
     /// <summary>
     /// Toggle Page Full Screen
     /// </summary>

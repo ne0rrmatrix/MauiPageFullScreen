@@ -4,10 +4,10 @@ using Microsoft.UI.Windowing;
 #endif
 
 namespace MauiPageFullScreen.Devices;
-internal class DeviceServices : IDeviceServices
+class DeviceServices : IDeviceServices
 {
     public static Page CurrentPage =>
-        PageExtensions.GetCurrentPage(Application.Current?.MainPage ?? throw new InvalidOperationException($"{nameof(Application.Current.MainPage)} cannot be null."));
+		PageExtensions.GetCurrentPage(Application.Current?.Windows[0].Page ?? throw new InvalidOperationException($"{nameof(Application.Current.MainPage)} cannot be null."));
     public AppWindow FullScreen()
     {
         var currentPage = CurrentPage;
@@ -42,7 +42,7 @@ internal class DeviceServices : IDeviceServices
         }
         return currentWindow;
     }
-    private static AppWindow GetAppWindow(MauiWinUIWindow window)
+    static AppWindow GetAppWindow(MauiWinUIWindow window)
     {
         var handle = WinRT.Interop.WindowNative.GetWindowHandle(window);
         var id = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(handle);
