@@ -72,9 +72,10 @@ static class PageExtensions
 	}
 	internal static Page GetCurrentPage(this Page currentPage)
 	{
-		if (currentPage.NavigationProxy.ModalStack.LastOrDefault() is Page modal)
+		var modalStack = currentPage.NavigationProxy.ModalStack;
+		if (modalStack is not null && modalStack.Count > 0 && modalStack[^1] is Page modalPage)
 		{
-			return modal;
+			return modalPage;
 		}
 
 		if (currentPage is FlyoutPage flyoutPage)
