@@ -72,7 +72,7 @@ static class PageExtensions
 	}
 	internal static Page GetCurrentPage(this Page currentPage)
 	{
-		if (currentPage.NavigationProxy.ModalStack[^1] is Page modal)
+		if (currentPage.NavigationProxy.ModalStack.LastOrDefault() is Page modal)
 		{
 			return modal;
 		}
