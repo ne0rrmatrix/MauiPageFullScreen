@@ -72,11 +72,12 @@ static class PageExtensions
 	}
 	internal static Page GetCurrentPage(this Page currentPage)
 	{
-		var modalStack = currentPage.NavigationProxy.ModalStack;
-		if (modalStack is not null && modalStack.Count > 0 && modalStack[^1] is Page modalPage)
+#pragma warning disable CA1826 // Do not use Enumerable methods on indexable collections
+		if (currentPage.NavigationProxy.ModalStack.LastOrDefault() is Page modal)
 		{
-			return modalPage;
+			return modal;
 		}
+#pragma warning restore CA1826 // Do not use Enumerable methods on indexable collections
 
 		if (currentPage is FlyoutPage flyoutPage)
 		{
