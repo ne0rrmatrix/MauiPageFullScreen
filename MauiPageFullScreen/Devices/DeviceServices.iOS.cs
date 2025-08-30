@@ -3,7 +3,7 @@ using MauiPageFullScreen.Interface;
 
 namespace MauiPageFullScreen.Devices;
 
-internal class DeviceServices : IDeviceServices
+class DeviceServices : IDeviceServices
 {
     public void FullScreen()
     {

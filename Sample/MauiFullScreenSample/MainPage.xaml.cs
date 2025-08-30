@@ -1,27 +1,26 @@
 ﻿using MauiPageFullScreen;
 
-namespace MauiFullScreenSample
+namespace MauiFullScreenSample;
+
+public partial class MainPage : ContentPage
 {
-    public partial class MainPage : ContentPage
+    public MainPage()
     {
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void FullScreen_Toggled(object sender, EventArgs e)
-        {
-            Controls.ToggleFullScreenStatus();
-        }
+    void FullScreen_Toggled(object sender, EventArgs e)
+    {
+        Controls.ToggleFullScreenStatus();
+    }
 
-        private void FullScreen_Clicked(object sender, EventArgs e)
-        {
-            Controls.FullScreen();
-        }
+    void FullScreen_Clicked(object sender, EventArgs e)
+    {
+        Controls.FullScreen();
+    }
 
-        private void RestoreScreen_Clicked(object sender, EventArgs e)
-        {
-            Controls.RestoreScreen();
-        }
+    void RestoreScreen_Clicked(object sender, EventArgs e)
+    {
+        Controls.RestoreScreen();
     }
 }
