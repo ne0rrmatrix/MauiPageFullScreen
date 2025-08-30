@@ -1,4 +1,8 @@
-﻿
+﻿#if MACCATALYST
+using System.Runtime.InteropServices;
+using System.Diagnostics;
+#endif
+
 namespace MauiPageFullScreen.Extensions;
 
 // Since MauiPageFullScreen can't access .NET MAUI internals we have to copy this code here
@@ -14,10 +18,13 @@ static class PageExtensions
 	static Page CurrentPage => GetCurrentPage(Application.Current?.Windows[0].Page ?? throw new InvalidOperationException($"{nameof(Application.Current.MainPage)} cannot be null."));
 	public static void SetBarStatus(bool setFullScreen)
 	{
-#if IOS || MACCATALYST
+#if IOS
 #pragma warning disable CA1422 // Validate platform compatibility
 		UIKit.UIApplication.SharedApplication.SetStatusBarHidden(setFullScreen, UIKit.UIStatusBarAnimation.Fade);
 #pragma warning restore CA1422 // Validate platform compatibility
+#endif
+#if MACCATALYST
+        FullScreenHelper.ToggleFullScreen();
 #endif
 		// let's cache the CurrentPage here, since the user can navigate or background the app
 		// while this method is running
@@ -110,3 +117,76 @@ static class PageExtensions
 		}
 	}
 }
+
+#if MACCATALYST
+
+
+/// <summary>
+/// Helper class to toggle full-screen mode for the main window in Mac Catalyst.
+/// </summary>
+public static class FullScreenHelper
+{
+    // P/Invoke declarations for Objective-C runtime
+    [DllImport("/usr/lib/libobjc.dylib")]
+    static extern IntPtr objc_getClass(string name);
+    
+    [DllImport("/usr/lib/libobjc.dylib")]
+    static extern IntPtr sel_registerName(string name);
+    
+    [DllImport("/usr/lib/libobjc.dylib")]
+    static extern IntPtr objc_msgSend(IntPtr receiver, IntPtr selector);
+    
+    [DllImport("/usr/lib/libobjc.dylib")]
+    static extern IntPtr objc_msgSend(IntPtr receiver, IntPtr selector, IntPtr arg1);
+    
+    [DllImport("/usr/lib/libobjc.dylib")]
+    static extern IntPtr objc_msgSend(IntPtr receiver, IntPtr selector, int arg1);
+    
+    [DllImport("/usr/lib/libobjc.dylib")]
+    static extern bool class_respondsToSelector(IntPtr cls, IntPtr sel);
+    
+    /// <summary>
+    /// Toggles the full-screen mode for the main window.
+    /// </summary>
+    public static void ToggleFullScreen()
+    {
+        try
+        {
+            // Get the NSApplication shared instance
+            var nsApplicationClass = objc_getClass("NSApplication");
+            var sharedApplicationSel = sel_registerName("sharedApplication");
+            var nsApp = objc_msgSend(nsApplicationClass, sharedApplicationSel);
+
+            // Get the main window
+            var mainWindowSel = sel_registerName("mainWindow");
+            var nsWindow = objc_msgSend(nsApp, mainWindowSel);
+
+            if (nsWindow != IntPtr.Zero)
+            {
+                // Check if window responds to toggleFullScreen:
+                var toggleFullScreenSel = sel_registerName("toggleFullScreen:");
+                var windowClass = objc_msgSend(nsWindow, sel_registerName("class"));
+
+                if (class_respondsToSelector(windowClass, toggleFullScreenSel))
+                {
+                    // Toggle fullscreen on the main window
+                    objc_msgSend(nsWindow, toggleFullScreenSel, nsWindow);
+                    Debug.WriteLine("Successfully toggled fullscreen");
+                }
+                else
+                {
+                    Debug.WriteLine("Window does not respond to toggleFullScreen:");
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Main window not found");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error toggling fullscreen: {ex.Message}");
+        }
+    }
+}
+#endif
