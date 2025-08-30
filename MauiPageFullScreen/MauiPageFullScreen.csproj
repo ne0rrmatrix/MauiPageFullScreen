@@ -27,9 +27,10 @@
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<RepositoryUrl>https://github.com/ne0rrmatrix/MauiPageFullScreen</RepositoryUrl>
-		<PackageTags>Full Screen, Maui, Android, iOS, Windows</PackageTags>
+		<PackageTags>Full Screen, Maui, Android, iOS,MacCatalyst, Windows</PackageTags>
 		<PackageReleaseNotes>Full Screen support for dotnet Maui Page element</PackageReleaseNotes>
 		<PackageProjectUrl>https://github.com/ne0rrmatrix/MauiPageFullScreen</PackageProjectUrl>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 	
 	<ItemGroup>

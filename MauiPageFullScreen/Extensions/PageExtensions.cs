@@ -1,6 +1,7 @@
 ﻿#if MACCATALYST
-using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 #endif
 
 namespace MauiPageFullScreen.Extensions;
@@ -71,7 +72,7 @@ static class PageExtensions
 	}
 	internal static Page GetCurrentPage(this Page currentPage)
 	{
-		if (currentPage.NavigationProxy.ModalStack.LastOrDefault() is Page modal)
+		if (currentPage.NavigationProxy.ModalStack[^1] is Page modal)
 		{
 			return modal;
 		}
@@ -93,58 +94,37 @@ static class PageExtensions
 
 		return currentPage;
 	}
-
-	internal record struct ParentWindow
-	{
-		/// <summary>
-		/// Checks if the parent window is null.
-		/// </summary>
-		public static bool Exists
-		{
-			get
-			{
-				if (CurrentPage.GetParentWindow() is null)
-				{
-					return false;
-				}
-				if (CurrentPage.GetParentWindow().Handler is null)
-				{
-					return false;
-				}
-
-				return CurrentPage.GetParentWindow().Handler?.PlatformView is not null;
-			}
-		}
-	}
 }
 
 #if MACCATALYST
 
-
 /// <summary>
 /// Helper class to toggle full-screen mode for the main window in Mac Catalyst.
 /// </summary>
-public static class FullScreenHelper
+public static partial class FullScreenHelper
 {
     // P/Invoke declarations for Objective-C runtime
-    [DllImport("/usr/lib/libobjc.dylib")]
-    static extern IntPtr objc_getClass(string name);
-    
-    [DllImport("/usr/lib/libobjc.dylib")]
-    static extern IntPtr sel_registerName(string name);
-    
-    [DllImport("/usr/lib/libobjc.dylib")]
-    static extern IntPtr objc_msgSend(IntPtr receiver, IntPtr selector);
-    
-    [DllImport("/usr/lib/libobjc.dylib")]
-    static extern IntPtr objc_msgSend(IntPtr receiver, IntPtr selector, IntPtr arg1);
-    
-    [DllImport("/usr/lib/libobjc.dylib")]
-    static extern IntPtr objc_msgSend(IntPtr receiver, IntPtr selector, int arg1);
-    
-    [DllImport("/usr/lib/libobjc.dylib")]
-    static extern bool class_respondsToSelector(IntPtr cls, IntPtr sel);
-    
+    [LibraryImport("/usr/lib/libobjc.dylib", StringMarshalling = StringMarshalling.Utf8)]
+    private static partial IntPtr objc_getClass(string name);
+
+    [LibraryImport("/usr/lib/libobjc.dylib", StringMarshalling = StringMarshalling.Utf8)]
+    private static partial IntPtr sel_registerName(string name);
+
+    // objc_msgSend returning IntPtr
+    [LibraryImport("/usr/lib/libobjc.dylib", EntryPoint = "objc_msgSend")]
+    private static partial IntPtr objc_msgSend_IntPtr(IntPtr receiver, IntPtr selector);
+
+    // objc_msgSend with IntPtr argument, returning void
+    [LibraryImport("/usr/lib/libobjc.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void objc_msgSend_Void(IntPtr receiver, IntPtr selector, IntPtr arg1);
+
+    [LibraryImport("/usr/lib/libobjc.dylib")]
+    private static partial IntPtr object_getClass(IntPtr obj);
+
+    [LibraryImport("/usr/lib/libobjc.dylib")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool class_respondsToSelector(IntPtr cls, IntPtr sel);
+
     /// <summary>
     /// Toggles the full-screen mode for the main window.
     /// </summary>
@@ -155,37 +135,36 @@ public static class FullScreenHelper
             // Get the NSApplication shared instance
             var nsApplicationClass = objc_getClass("NSApplication");
             var sharedApplicationSel = sel_registerName("sharedApplication");
-            var nsApp = objc_msgSend(nsApplicationClass, sharedApplicationSel);
+            var nsApp = objc_msgSend_IntPtr(nsApplicationClass, sharedApplicationSel);
 
             // Get the main window
             var mainWindowSel = sel_registerName("mainWindow");
-            var nsWindow = objc_msgSend(nsApp, mainWindowSel);
+            var nsWindow = objc_msgSend_IntPtr(nsApp, mainWindowSel);
 
             if (nsWindow != IntPtr.Zero)
             {
                 // Check if window responds to toggleFullScreen:
                 var toggleFullScreenSel = sel_registerName("toggleFullScreen:");
-                var windowClass = objc_msgSend(nsWindow, sel_registerName("class"));
+                var windowClass = object_getClass(nsWindow);
 
                 if (class_respondsToSelector(windowClass, toggleFullScreenSel))
                 {
                     // Toggle fullscreen on the main window
-                    objc_msgSend(nsWindow, toggleFullScreenSel, nsWindow);
-                    Debug.WriteLine("Successfully toggled fullscreen");
+                    objc_msgSend_Void(nsWindow, toggleFullScreenSel, IntPtr.Zero);
                 }
                 else
                 {
-                    Debug.WriteLine("Window does not respond to toggleFullScreen:");
-                }
+					System.Diagnostics.Trace.TraceError("Main window does not respond to toggleFullScreen:");
+				}
             }
             else
             {
-                Debug.WriteLine("Main window not found");
+                System.Diagnostics.Trace.TraceError("Main window not found");
             }
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error toggling fullscreen: {ex.Message}");
+            System.Diagnostics.Trace.TraceError($"Error toggling fullscreen: {ex.Message}");
         }
     }
 }
